@@ -1,0 +1,50 @@
+.ant-layout {
+  height: 100%;
+  background-color: transparent; // 保持背景透明
+  border: none; // 移除 ant-layout 的边框
+}
+
+.header {
+  padding: 0;
+  min-height: 60px; // 确保至少与.logo的高度相同
+  display: flex;
+  align-items: center; // 垂直居中对齐子元素
+  justify-content: space-between; // 子元素两端对齐
+  background-color: #001529; // 确保.header有背景色，如果需要的话
+  border: none; // 移除 header 的边框
+}
+
+.logo {
+  width: 200px; // 确保宽度足够显示整个logo
+  height: 60px;
+  background: url('~@/assets/4.png') no-repeat center / contain; // 使用contain以确保图片完整显示
+  border: none; // 移除 logo 的边框
+}
+
+.layout-content {
+  overflow-y: auto;
+  border: none; // 移除 layout-content 的边框
+}
+
+.user-info {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-right: 20px;
+  color: #fff;
+  
+  .user-name {
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+  
+  .user-logout {
+    display: inline-block;
+    cursor: pointer;
+  }
+}
+
+.ant-layout-header {
+  padding: 0 !important;
+  border: none; // 移除 ant-layout-header 的边框
+}

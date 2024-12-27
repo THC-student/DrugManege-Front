@@ -1,0 +1,8 @@
+#scrollableDiv::-webkit-scrollbar {
+    width: 5px; /* 调整滚动条的宽度 */
+    background-color: rgba(0, 0, 0, 0); /* 设置滚动条的背景颜色为透明 */
+  }
+  
+  #scrollableDiv::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2); /* 设置滚动条滑块的颜色，这里设置了轻微的透明度 */
+  }

@@ -1,0 +1,16 @@
+.publish {
+    position: relative;
+  }
+  
+  .publish {
+    display: flex;
+    flex-direction: column;
+    align-items: center; // 水平居中
+    justify-content: center; // 垂直居中
+    height: 100vh; // 使容器占满整个视口高度
+  }
+  .custom-preview-mask {
+    /* 这里可以添加你想要的样式 */
+    margin-left: 60px; /* 向左移动100px，根据需要调整这个值 */
+    width: calc(100% + 1px);
+  }

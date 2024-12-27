@@ -1,0 +1,26 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 仍然保持两列 */
+    grid-template-rows: 1fr 1fr; /* 只需要一行 */
+    height: 100vh; /* 视口高度 */
+  }
+  
+  
+  .grid-item-top-left {
+    grid-area: top-left; /* 左上部分 */
+  }
+  
+  .grid-item-top-right {
+    grid-area: top-right; /* 右上部分 */
+  }
+  
+  .grid-item-bottom {
+    grid-area: bottom; /* 合并左下和右下部分 */
+  }
+  
+  /* 更新网格区域定义 */
+  .grid-container {
+    grid-template-areas:
+      "top-left top-right"
+      "bottom bottom";
+  }

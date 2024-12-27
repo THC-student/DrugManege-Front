@@ -1,0 +1,11 @@
+.publish {
+    position: relative;
+  }
+  
+  .publish {
+    display: flex;
+    flex-direction: column;
+    align-items: center; // 水平居中
+    justify-content: center; // 垂直居中
+    height: 100vh; // 使容器占满整个视口高度
+  }

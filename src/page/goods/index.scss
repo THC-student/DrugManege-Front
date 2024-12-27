@@ -1,0 +1,7 @@
+// 在scss中添加样式覆盖
+.custom-table {
+    // 确保Table的背景色不会影响外部元素
+    background-color: transparent !important;
+    // 其他需要覆盖的样式
+  }
+
