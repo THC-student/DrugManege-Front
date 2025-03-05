@@ -1,6 +1,6 @@
 import Layout from "@/page/Layout";
 import Login from "@/page/Login";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter,Navigate  } from "react-router-dom";
 import { AuthRoute } from "@/components/AuthRouter";
 import Home from "@/page/Home";
 import Registerd from "@/page/Registerd";
@@ -17,6 +17,10 @@ const router=createBrowserRouter([
         path:"/",
         element:<AuthRoute><Layout/></AuthRoute>,
         children:[
+             {
+            index: true,
+            element: <Navigate to="/home" replace />
+           },
            {
             path:'home',
             element:<Home/>

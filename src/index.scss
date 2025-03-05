@@ -1,9 +1,44 @@
-html,
-body {
-  margin: 0;
-  height: 100%;
+/* index.scss */
+.light-theme {
+  .ant-btn-primary {
+    background-color: #B6CAD7 !important;
+    color: black !important;
+
+    &:hover,
+    &:focus {
+      background-color: #E1E4EA !important;
+      color: black !important;
+    }
+  }
+
+  .ant-btn-default {
+    background-color: #eee !important;
+    color: #333 !important;
+  }
+
+  .ant-btn-link {
+    color: navy !important;
+  }
 }
 
-#root {
-  height: 100%;
+.dark-theme {
+  .ant-btn-primary {
+    background-color: #464879 !important;
+    color: white !important;
+
+    &:hover,
+    &:focus {
+      background-color: #5D7DB3 !important;
+      color: white !important;
+    }
+  }
+
+  .ant-btn-default {
+    background-color: #333 !important;
+    color: #eee !important;
+  }
+
+  .ant-btn-link {
+    color: #B6CAD7 !important;
+  }
 }

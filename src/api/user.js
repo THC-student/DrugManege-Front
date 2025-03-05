@@ -97,3 +97,10 @@ export function reloadSuggest(suggestBacks){
     })
 
 }
+export function deleteSuggestById(msgId){
+    return request({
+        url:'/useController/deleteSuggestById?',
+        method:'GET',
+        params:{msgId:msgId}
+    })
+}

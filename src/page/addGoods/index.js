@@ -128,7 +128,7 @@ const AddGoods = () => {
           </Form.Item>
 
 
-          <Form.Item label="药品封面" style={{ marginBottom: 20 }}>
+          <Form.Item label="使用说明书" style={{ marginBottom: 20 }}>
              <Upload
                  listType="picture-card"
                  customRequest={options => {
@@ -142,7 +142,7 @@ const AddGoods = () => {
           <Form.Item wrapperCol={{ offset: 4 }}>
             <Space>
               <Button size="large" type="primary" htmlType="submit">
-                发布文章
+                新增药品
               </Button>
             </Space>
           </Form.Item>

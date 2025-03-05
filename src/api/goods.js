@@ -83,3 +83,13 @@ export function getNumberOfDrug(){
         method:'GET',
     })
 }
+
+
+
+export function getDrugByName(drugName){
+    return request({
+        url:`/drugController/getDrugByName`,
+        method:'GET',
+        params: { drugName:drugName } 
+    })
+}

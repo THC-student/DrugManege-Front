@@ -49,3 +49,12 @@ export function changeStore(store){
     })
 }
 
+
+export function storePageByDrugId(pageNum,sampleId,drugId){
+    return request({
+        url:`/storeController/StorePageByDrugId`,
+        method:'GET',
+        params: { pageNum: pageNum,sampleId:sampleId,drugId:drugId  } 
+    })
+}
+

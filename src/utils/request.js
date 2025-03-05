@@ -3,7 +3,7 @@ import { getToken, removeToken } from '@/utils'
 import router from '@/router'
 
 const request = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'http://124.71.86.161:8080',
   timeout: 50000
 })
 

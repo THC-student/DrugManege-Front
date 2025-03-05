@@ -56,8 +56,12 @@ const ChangeGoods = () => {
   };
   useEffect(() => {
     async function getDrugInfoByDrugId() {
-      
-      const res = await getDrugInfo(drugId);
+      if(!drugId) {
+     //   console.log('没有drugId');
+        return;
+      }
+      try{
+        const res = await getDrugInfo(drugId);
       const data = res.data;
       setDrugInfo(data); // 更新药品信息状态
       if (form.current) {
@@ -70,9 +74,13 @@ const ChangeGoods = () => {
           drugComponents: data.drugComponents,
         });
       }
+      }catch(error){
+        message.error('出现错误')
+      }
+      
     }
     getDrugInfoByDrugId();
-  }, []);
+  }, [drugId]);
   const onFinish = async (drug) => {
     drug.drugId=drugId
     drug.drugPicture=drugPicture;
@@ -163,7 +171,7 @@ const ChangeGoods = () => {
           <Form.Item wrapperCol={{ offset: 4 }}>
             <Space>
               <Button size="large" type="primary" htmlType="submit">
-                发布文章
+                修改药品信息
               </Button>
             </Space>
           </Form.Item>

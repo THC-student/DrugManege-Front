@@ -17,6 +17,7 @@ const UserInfo = () => {
   const userId = useSelector(state => state.user.userInfo.userId);
   const userName = useSelector(state => state.user.userInfo.userName);
   const userCount = useSelector(state => state.user.userInfo.userCount);
+  const  userJudge= useSelector(state => state.user.userInfo.userJudge);
   const navigate=useNavigate()
   useEffect(() => {
     setUserHeader(userHeaderSelector);

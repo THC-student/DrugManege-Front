@@ -1,27 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Button, Divider, List, Skeleton, Input,Tag, Typography } from 'antd';
+import { Avatar, Button, Divider, List, Skeleton, Input,Tag, Typography, message } from 'antd';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import './index.scss';
-import { reloadSuggest, useGetSuggest, useSetSuggest } from '@/api/user';
+import { reloadSuggest, useGetSuggest, useSetSuggest,deleteSuggestById } from '@/api/user';
 import { useDispatch, useSelector } from 'react-redux';
 const Suggest = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [showInput, setShowInput] = useState(false); // 控制文本框显示隐藏
   const [inputValue, setInputValue] = useState(''); // 绑定输入内容
-  const [suggestList,setSuggestList]=useState([])
+  const [suggestList, setSuggestList] = useState([]);
   const userId = useSelector(state => state.user.userInfo.userId);
-  useEffect(()=>{
-    async function setInitInfo(){
-        const res= await useGetSuggest()
-        setSuggestList(res.data)
+  const userJudge = useSelector(state => state.user.userInfo.userJudge); // 获取当前用户的角色
+
+  function generateRandomId(length = 10) {
+    const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let id = '';
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      id += characters[randomIndex];
     }
-    setInitInfo()
-    return  async () => {
-      console.log('Suggest执行完毕');
-       await reloadSuggest(suggestList)
-    };
+    return id;
+  }
+
+  useEffect(() => {
+    async function setInitInfo() {
+      const res = await useGetSuggest();
+      setSuggestList(res.data);
+    }
+    setInitInfo();
   }, []);
+
   const loadMoreData = () => {
     if (loading) {
       return;
@@ -41,7 +50,7 @@ const Suggest = () => {
   useEffect(() => {
     loadMoreData();
   }, []);
- 
+
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
   };
@@ -53,16 +62,33 @@ const Suggest = () => {
   };
 
   const handleInputSubmit = async () => {
-    // 在这里处理输入提交的逻辑
     console.log('Submitted value:', inputValue);
-    const suggestInfo={
-      userId:userId,
-      content:inputValue
-    }
-    const res=await useSetSuggest(suggestInfo)
-    console.log('res.data=',res.data);
+    const msgId = generateRandomId(10); // 生成随机 MsgId
+    const suggestInfo = {
+      userId: userId,
+      msgId: msgId,
+      content: inputValue
+    };
+    const res = await useSetSuggest(suggestInfo);
     setSuggestList([...suggestList, res.data]);
+    setInputValue('');
     setShowInput(false); // 隐藏文本框
+  };
+
+  const handleClick = async (msgId) => {
+    console.log('Clicked on msgId:', msgId);
+
+    try {
+      // 调用删除接口
+      const res = await deleteSuggestById(msgId);
+      message.success("删除成功");
+
+      // 更新 suggestList，移除对应的 msgId
+      setSuggestList((prevList) => prevList.filter(item => item.msgId !== msgId));
+    } catch (error) {
+      console.error('删除错误:', error);
+      message.error("删除失败，请稍后再试");
+    }
   };
 
   return (
@@ -83,9 +109,7 @@ const Suggest = () => {
           loader={
             <Skeleton
               avatar
-              paragraph={{
-                rows: 1,
-              }}
+              paragraph={{ rows: 1 }}
               active
             />
           }
@@ -95,20 +119,36 @@ const Suggest = () => {
           <List
             dataSource={suggestList}
             renderItem={(item) => (
-              <List.Item key={item.userName}>
+              <List.Item
+                key={item.msgId}
+                style={{ padding: '50px 0' }}
+                className="item-hover-effect"
+              >
                 <List.Item.Meta
                   avatar={<Avatar src={item.userHeader} />}
                   title={
                     <Typography>
                       <a href="https://ant.design">{item.userName}</a>
                       <Tag color="blue" style={{ marginLeft: 8 }}>
-                      {item.userJudge === 1 ? '管理员' : '用户'}
+                        {item.userJudge === 1 ? '管理员' : '用户'}
                       </Tag>
                     </Typography>
                   }
-                  description={<div>
-                    <strong>Content:</strong> {item.content}<br />
-                  </div>}
+                  description={
+                    <div style={{ fontSize: '25px', fontWeight: 'bold' }}>
+                      {item.content}
+                      {/* 仅管理员显示删除按钮 */}
+                      {userJudge === 1 && (
+                        <Button
+                          type="primary"
+                          onClick={() => handleClick(item.msgId)}
+                          style={{ marginLeft: 16 }}
+                        >
+                          删除用户留言
+                        </Button>
+                      )}
+                    </div>
+                  }
                 />
                 <strong>Time:</strong> {item.time}
               </List.Item>
@@ -116,14 +156,17 @@ const Suggest = () => {
           />
         </InfiniteScroll>
       </div>
-      <Button type="primary" onClick={() => setShowInput(!showInput)} style={{ marginTop: '20px' }}>
-  新增反馈
-</Button>
+      <Button
+        type="primary"
+        onClick={() => setShowInput(!showInput)}
+        style={{ marginTop: '20px' }}
+      >
+        新增反馈
+      </Button>
       {showInput && (
         <Input
           value={inputValue}
           onChange={handleInputChange}
-          onKeyPress={handleKeyPress}
           placeholder="Enter text and press Enter"
           onPressEnter={handleInputSubmit}
           style={{ marginTop: 16 }}

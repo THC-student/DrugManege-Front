@@ -10,7 +10,7 @@
   display: flex;
   align-items: center; // 垂直居中对齐子元素
   justify-content: space-between; // 子元素两端对齐
-  background-color: #001529; // 确保.header有背景色，如果需要的话
+  background-color: #001529; // 确保.header有背景色，如果需要的话         整个header的颜色设置
   border: none; // 移除 header 的边框
 }
 
@@ -31,15 +31,76 @@
   right: 0;
   top: 0;
   padding-right: 20px;
-  color: #fff;
   
   .user-name {
-    margin-right: 20px;
-    margin-left: 20px;
+    font-size: 20px; // 调整用户名字体大小
+    margin-right: 30px;
+    margin-left: 30px;
   }
   
   .user-logout {
     display: inline-block;
+    /* global styles */
+    .ant-layout {
+      height: 100%;
+      background-color: transparent;
+      border: none;
+    }
+    
+    .header {
+      padding: 0;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: #001529;
+      
+      border: none;
+    }
+    
+    .logo {
+      width: 200px;
+      height: 60px;
+      background: url('~@/assets/4.png') no-repeat center / contain;
+      border: none;
+    }
+    
+    .layout-content {
+      overflow-y: auto;
+      border: none;
+    }
+    
+    .user-info {
+      .user-name {
+        font-size: 20px;
+        margin-right: 30px;
+        margin-left: 30px;
+        /* 移除color属性 */
+      }
+      .user-logout {
+        font-size: 20px;
+        display: inline-block;
+        cursor: pointer;
+        margin-left: 10px;
+        /* 移除color属性 */
+      }
+    }
+    
+    .ant-layout-header {
+      padding: 0 !important;
+      border: none;
+    }
+    
+    /* 菜单自定义样式 */
+    .custom-menu {
+      background-color: #142850 !important; /* 自定义菜单背景颜色 */
+    }
+    
+    .custom-menu .ant-menu-item:hover,
+    .custom-menu .ant-menu-submenu-title:hover {
+      background-color: #293c61 !important; /* 自定义悬浮颜色 */
+    }
+
     cursor: pointer;
   }
 }
@@ -47,4 +108,95 @@
 .ant-layout-header {
   padding: 0 !important;
   border: none; // 移除 ant-layout-header 的边框
+}
+
+.change-backgroung {
+  display: inline-block;
+  cursor: pointer;
+  /* 其他样式保持不变 */
+}
+
+.custom-menu .ant-menu-item,
+.custom-menu .ant-menu-submenu-title {
+  color: inherit !important;
+}
+
+// 动态选中项背景颜色和字体颜色
+.custom-menu.ant-menu-dark .ant-menu-item-selected {
+  background-color: #1890ff !important; // 默认选中项背景颜色
+  color: #fff !important; // 默认选中项字体颜色
+}
+
+/* 二级菜单的标题样式 */
+.custom-menu .ant-menu-submenu .ant-menu-submenu-title {
+  color: #fff !important; /* 设置字体颜色 */
+  background-color: #bce2e8 !important; /* 设置背景颜色 */
+}
+
+/* 二级菜单的标题悬停样式 */
+.custom-menu .ant-menu-submenu .ant-menu-submenu-title:hover {
+  color: #1890ff !important; /* 悬停时字体颜色 */
+  background-color: #89c3eb !important; /* 悬停时背景颜色 */
+}
+
+/* 二级菜单的选中样式 */
+.custom-menu .ant-menu-submenu .ant-menu-item-selected {
+  color: #fff !important; /* 选中时字体颜色 */
+  background-color: #0095d9 !important; /* 选中时背景颜色 */
+}
+/* 公共样式部分 */
+.custom-menu {
+  .ant-menu-item:hover,
+  .ant-menu-submenu-title:hover {
+    background-color: #293c61 !important; /* 默认悬浮颜色 */
+  }
+
+  .ant-menu-item-selected {
+    background-color: #1890ff !important; /* 默认选中项背景颜色 */
+    color: #fff !important; /* 默认选中项字体颜色 */
+  }
+
+  .ant-menu-submenu .ant-menu-submenu-title {
+    color: #fff !important; /* 默认二级菜单标题颜色 */
+  }
+
+  .ant-menu-submenu .ant-menu-submenu-title:hover {
+    color: #1890ff !important; /* 默认二级菜单悬浮颜色 */
+  }
+
+  .ant-menu-submenu .ant-menu-item-selected {
+    color: #89c3eb!important; /* 默认二级菜单选中项颜色 */
+  }
+}
+
+/* dark-mode 样式 */
+.custom-menu.dark-mode {
+  .ant-menu-item:hover,
+  .ant-menu-submenu-title:hover {
+    background-color: transparent !important; /* 暗色模式悬浮背景 */
+    color: #001529 !important; /* 暗色模式悬浮字体颜色 */
+  }
+
+  .ant-menu-item-selected {
+    background-color: #D2C3D5 !important; /* 暗色模式选中项背景颜色 */
+    color: #fff !important; /* 暗色模式选中项字体颜色 */
+  }
+
+  .ant-menu-submenu .ant-menu-submenu-title {
+    color: #001529!important; /* 暗色模式二级菜单标题颜色 */
+    background-color: #84709B !important; /* 暗色模式二级菜单标题背景 */
+  }
+
+  .ant-menu-submenu .ant-menu-submenu-title:hover {
+    color: #001529 !important; /* 暗色模式二级菜单悬浮颜色 */
+  }
+
+  .ant-menu-submenu .ant-menu-item-selected {
+    color: #44617b !important; /* 暗色模式二级菜单选中项颜色 */
+  }
+}
+
+/* light-mode 样式（可选） */
+.custom-menu.light-mode {
+  // 对于 light-mode，可以自定义其他样式
 }

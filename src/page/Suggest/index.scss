@@ -6,3 +6,10 @@
   #scrollableDiv::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.2); /* 设置滚动条滑块的颜色，这里设置了轻微的透明度 */
   }
+
+  .item-hover-effect {
+    transition: background-color 0.3s; // 添加平滑过渡效果
+    &:hover {
+      background-color: 	#FFFFFF// 悬浮时的淡灰色背景
+    }
+  }

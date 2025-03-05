@@ -61,19 +61,27 @@ const ChangeStores = () => {
     };
   
   useEffect(() => {
-      async function getDrugInfoByDrugId() {
-      const res=await GetStoreInfoById(storeId)
-      const data=res.data
-      console.log('data=',data);
-     setstoreInfo(data)
-     console.log('storeInfo',storeInfo);
-     if(form.current){
-      form.current.setFieldsValue({
-        storeNumber:data.storeNumber,
-        storePicture: data.storePicture,
-      })
-     }
+    if(!storeId){
+      return ;
     }
+    try{
+      async function getDrugInfoByDrugId() {
+        const res=await GetStoreInfoById(storeId)
+        const data=res.data
+        console.log('data=',data);
+       setstoreInfo(data)
+       console.log('storeInfo',storeInfo);
+       if(form.current){
+        form.current.setFieldsValue({
+          storeNumber:data.storeNumber,
+          storePicture: data.storePicture,
+        })
+       }
+      }
+    }catch(error){
+      message.error("出现错误")
+    }
+    
     getDrugInfoByDrugId()
   }, []);
   const onFinish = async (store) => {

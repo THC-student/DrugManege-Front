@@ -1,9 +1,9 @@
 import { Table, Tag, Space, message } from 'antd'
 import { EditOutlined, DeleteOutlined, SoundTwoTone } from '@ant-design/icons'
 import img404 from '@/assets/error.png'
-import { Card, Breadcrumb, Form, Button, Radio, DatePicker, Select } from 'antd'
+import { Card, Breadcrumb, Form, Button, Radio, DatePicker, Select,Input } from 'antd'
 import { useEffect, useState } from 'react'
-import { deleteDrugById, getDrugPageSum, getGoodsList, getGoodsPageSum, newPicture } from '@/api/goods'
+import { deleteDrugById, getDrugByName, getDrugPageSum, getGoodsList, getGoodsPageSum, newPicture } from '@/api/goods'
 import { getToken } from '@/utils'
 import { clearUserInfo, fetchUserInfo } from '@/store/modules/user'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,20 +11,20 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 const Goods = () => {
   const columns = [
     {
-
-        title: '封面',
-        dataIndex: 'drugPicture',
-        key: 'drugPicture',
-        width: 120,
-        render: (src) => {
-          return <img src={src || img404} width={80} height={60} alt="" />;
+      title: '封面',
+      dataIndex: 'drugPicture',
+      key: 'drugPicture',
+      width: 200,
+      render: (src) => {
+        return <img src={src || img404} width={100} height={70} alt="" style={{ fontSize: '16px' }} />;
       },
     },
     {
       title: '药品名',
       dataIndex: 'drugName',
       key: 'drugName',
-      width: 220
+      width: 220,
+      style: { fontSize: '18px' } // 设置列标题字体大小
     },
     {
       title: '类型',
@@ -32,14 +32,14 @@ const Goods = () => {
       key: 'drugType',
       render: (text) => {
         if (text === 0) {
-          return <Tag color="green">处方药</Tag>;
+          return <Tag color="green" style={{ fontSize: '16px' }}>处方药</Tag>;
         } else if (text === 1) {
-          return <Tag color="#f50">非处方药</Tag>;
+          return <Tag color="#f50" style={{ fontSize: '16px' }}>非处方药</Tag>;
         } else if (text === 2) {
-          return <Tag color="#2db7f5">精神类药</Tag>;
+          return <Tag color="#2db7f5" style={{ fontSize: '16px' }}>精神类药</Tag>;
         } else if (text === 3) {
-          return <Tag color="#87d068">麻醉药</Tag>;
-        } 
+          return <Tag color="#87d068" style={{ fontSize: '16px' }}>麻醉药</Tag>;
+        }
       },
     },
     {
@@ -47,19 +47,19 @@ const Goods = () => {
       dataIndex: 'drugMode',
       render: (text) => {
         if (text === 1) {
-          return <Tag color="purple">注射</Tag>;
+          return <Tag color="purple" style={{ fontSize: '16px' }}>注射</Tag>;
         } else if (text === 2) {
-          return <Tag color="geekblue">口服</Tag>;
-        } 
+          return <Tag color="geekblue" style={{ fontSize: '16px' }}>口服</Tag>;
+        }
       },
     },
     {
       title: '使用说明书',
-      dataIndex: 'drugComponents', // 修改 dataIndex 为 'drug_components'
+      dataIndex: 'drugComponents',
       key: 'drugComponents',
       render: (text) => (
-        <a href={text} target="_blank" rel="noopener noreferrer" style={{ color: '#1890ff' }}>
-          查看说明书
+        <a href={text} target="_blank" rel="noopener noreferrer" style={{ color: '#1890ff', fontSize: '16px' }}>
+          点击查看说明书
         </a>
       ),
     },
@@ -67,21 +67,21 @@ const Goods = () => {
       title: '存量',
       dataIndex: 'drugNumber',
       key: 'drugNumber',
+      style: { fontSize: '30px' } // 设置列标题字体大小
     },
     {
       title: '操作',
       render: data => {
         return (
           <Space size="middle">
-            <Button type="primary" shape="circle" icon={<EditOutlined />} onClick={()=>{EditClick(data)}}/>
+            <Button type="primary" shape="circle" icon={<EditOutlined />} style={{ fontSize: '16px' }} onClick={()=>{EditClick(data)}} />
             <Button
               type="primary"
               danger
               shape="circle"
-              icon={<DeleteOutlined 
+              icon={<DeleteOutlined />}
               onClick={()=>{DeleteClick(data)}}
-              />
-              }
+              style={{ fontSize: '16px' }}
             />
           </Space>
         )
@@ -89,7 +89,7 @@ const Goods = () => {
     }
   ]
 
-
+  const { Search } = Input;
   const [list,setList]=useState('')
   const [pageSum,setPageSum]=useState('')
   const [pageCount,setPageCount]=useState('')
@@ -164,21 +164,50 @@ const Goods = () => {
       // 如果需要导航到新页面，可以使用 history.push('/add-data-page');
       navigate('/addGoods')
     };
-  return (
-    <div >
-   <Card title={`根据筛选条件共查询到 ${pageSum} 条结果：`} extra={<Button type="primary" onClick={handleAddData } style={{headerFontSize: 20}}>新增数据</Button>}>
-        <Table rowKey="drugId" columns={columns} dataSource={list}
-           pagination={
-            {
-                total:12,
-                pageSize:pageCount,
-                onChange:onPageChange
-            }
-           }
-        />
-      </Card>
-    </div>
-   )
-  }
+
+    
+    const onSearch = async (drugName, _e, info) =>{
+        const res= await getDrugByName(drugName)
+       
+       const transformedData = res.data.drugList.map(item => ({
+        drugId: String(item.drugId), // 确保id是字符串类型，以匹配rowKey="id"
+        drugName: item.drugName,
+        drugType: item.drugType,
+        drugMode: item.drugMode,
+        drugNumber: item.drugNumber,
+        drugPicture: item.drugPicture, // 确保图片URL是正确的
+        drugComponents: item.drugComponents, // 使用正确的属性名
+      }));
+      setPageCount(res.data.number)
+      setList(transformedData)
+    } 
   
+    return (
+      <div>
+        <Card>
+          <Space style={{ marginBottom: '16px' }}>
+            <Button type="primary" onClick={handleAddData} style={{ fontSize: '16px' }}>新增数据</Button>
+            <Search
+              placeholder="输入药品名"
+              onSearch={onSearch}
+              style={{ width: 200, marginLeft: '24px' }}
+            />
+          </Space>
+          <Table
+            rowKey="drugId"
+            columns={columns}
+            dataSource={list}
+            pagination={{
+              pageSize: 8,
+              total: pageCount,
+              onChange: onPageChange,
+              showTotal: (total, rangeInfo) => (
+                <span style={{ fontSize: '20px' }}>共查询到 {total} 条结果</span>
+              ),
+            }}
+          />
+        </Card>
+      </div>
+    )
+  }
   export default Goods
