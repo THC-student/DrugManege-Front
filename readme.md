@@ -78,3 +78,5 @@ sass	^1.83.0	Sass支持
 项目配置了代理，指向 http://localhost:8080，用于开发时的API请求转发。
 许可证
 本项目采用 MIT 许可证，欢迎自由使用和修改。
+
+后端地址为：https://github.com/THC-student/Drugmanage-BackEnd
